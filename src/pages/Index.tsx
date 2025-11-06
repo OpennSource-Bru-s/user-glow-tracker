@@ -3,6 +3,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { StatsCard } from "@/components/StatsCard";
 import { UserList } from "@/components/UserList";
 import { AddUserDialog } from "@/components/AddUserDialog";
+import { ExportButton } from "@/components/ExportButton";
+import { ImportButton } from "@/components/ImportButton";
 import { Users, UserCheck, UserX } from "lucide-react";
 
 const Index = () => {
@@ -25,12 +27,18 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
-        <div className="mb-8 flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold tracking-tight mb-2">User Activity Dashboard</h1>
-            <p className="text-muted-foreground">Track and manage user activity status</p>
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h1 className="text-4xl font-bold tracking-tight mb-2">User Activity Dashboard</h1>
+              <p className="text-muted-foreground">Track and manage user activity status</p>
+            </div>
+            <AddUserDialog />
           </div>
-          <AddUserDialog />
+          <div className="flex gap-2">
+            <ExportButton users={users || []} />
+            <ImportButton />
+          </div>
         </div>
 
         <div className="grid gap-6 md:grid-cols-3 mb-8">
