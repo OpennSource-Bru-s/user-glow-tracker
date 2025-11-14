@@ -19,6 +19,9 @@ export const ExportButton = ({ users }: ExportButtonProps) => {
       const exportData = users.map(user => ({
         Name: user.name,
         Email: user.email,
+        Department: user.department || "",
+        "Job Title": user.job_title || "",
+        Office: user.office || "",
         Status: user.status,
         "Last Active": user.last_active_at 
           ? new Date(user.last_active_at).toLocaleString() 
@@ -33,6 +36,9 @@ export const ExportButton = ({ users }: ExportButtonProps) => {
       worksheet['!cols'] = [
         { wch: 20 }, // Name
         { wch: 30 }, // Email
+        { wch: 20 }, // Department
+        { wch: 25 }, // Job Title
+        { wch: 15 }, // Office
         { wch: 10 }, // Status
         { wch: 25 }, // Last Active
         { wch: 25 }, // Created At

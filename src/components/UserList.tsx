@@ -11,6 +11,9 @@ interface TrackedUser {
   id: string;
   name: string;
   email: string;
+  department: string | null;
+  job_title: string | null;
+  office: string | null;
   status: string;
   last_active_at: string | null;
   created_at: string;
@@ -104,6 +107,11 @@ export const UserList = () => {
                   </Badge>
                 </div>
                 <p className="text-sm text-muted-foreground truncate">{user.email}</p>
+                <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
+                  {user.job_title && <span>{user.job_title}</span>}
+                  {user.department && <span>• {user.department}</span>}
+                  {user.office && <span>• {user.office}</span>}
+                </div>
                 {user.last_active_at && (
                   <p className="text-xs text-muted-foreground mt-1">
                     Last active {formatDistanceToNow(new Date(user.last_active_at), { addSuffix: true })}
