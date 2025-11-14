@@ -17,28 +17,37 @@ export type Database = {
       tracked_users: {
         Row: {
           created_at: string
+          department: string | null
           email: string
           id: string
+          job_title: string | null
           last_active_at: string | null
           name: string
+          office: string | null
           status: string
           updated_at: string
         }
         Insert: {
           created_at?: string
+          department?: string | null
           email: string
           id?: string
+          job_title?: string | null
           last_active_at?: string | null
           name: string
+          office?: string | null
           status?: string
           updated_at?: string
         }
         Update: {
           created_at?: string
+          department?: string | null
           email?: string
           id?: string
+          job_title?: string | null
           last_active_at?: string | null
           name?: string
+          office?: string | null
           status?: string
           updated_at?: string
         }

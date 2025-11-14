@@ -53,6 +53,9 @@ export const ImportButton = () => {
         // Support both "Name" and "name" column names (case-insensitive)
         const name = row.Name || row.name || row.NAME;
         const email = row.Email || row.email || row.EMAIL;
+        const department = row.Department || row.department || row.DEPARTMENT;
+        const jobTitle = row["Job Title"] || row["job title"] || row.JOB_TITLE || row.JobTitle || row.jobTitle;
+        const office = row.Office || row.office || row.OFFICE;
         const status = (row.Status || row.status || row.STATUS || "inactive").toLowerCase();
 
         if (!name || !email) {
@@ -62,6 +65,9 @@ export const ImportButton = () => {
         return {
           name: String(name).trim(),
           email: String(email).trim().toLowerCase(),
+          department: department ? String(department).trim() : null,
+          job_title: jobTitle ? String(jobTitle).trim() : null,
+          office: office ? String(office).trim() : null,
           status: status === "active" ? "active" : "inactive",
           last_active_at: status === "active" ? new Date().toISOString() : null,
         };

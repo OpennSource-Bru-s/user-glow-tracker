@@ -18,13 +18,24 @@ export const AddUserDialog = () => {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [department, setDepartment] = useState("");
+  const [jobTitle, setJobTitle] = useState("");
+  const [office, setOffice] = useState("");
   const queryClient = useQueryClient();
 
   const addUserMutation = useMutation({
     mutationFn: async () => {
       const { error } = await supabase
         .from("tracked_users")
-        .insert({ name, email, status: "active", last_active_at: new Date().toISOString() });
+        .insert({ 
+          name, 
+          email, 
+          department: department || null,
+          job_title: jobTitle || null,
+          office: office || null,
+          status: "active", 
+          last_active_at: new Date().toISOString() 
+        });
       
       if (error) throw error;
     },
@@ -34,6 +45,9 @@ export const AddUserDialog = () => {
       setOpen(false);
       setName("");
       setEmail("");
+      setDepartment("");
+      setJobTitle("");
+      setOffice("");
     },
     onError: (error: any) => {
       toast.error(error.message || "Failed to add user");
@@ -81,6 +95,33 @@ export const AddUserDialog = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="john@example.com"
               required
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="department">Department</Label>
+            <Input
+              id="department"
+              value={department}
+              onChange={(e) => setDepartment(e.target.value)}
+              placeholder="Engineering"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="jobTitle">Job Title</Label>
+            <Input
+              id="jobTitle"
+              value={jobTitle}
+              onChange={(e) => setJobTitle(e.target.value)}
+              placeholder="Software Engineer"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="office">Office</Label>
+            <Input
+              id="office"
+              value={office}
+              onChange={(e) => setOffice(e.target.value)}
+              placeholder="New York"
             />
           </div>
           <Button type="submit" className="w-full" disabled={addUserMutation.isPending}>
