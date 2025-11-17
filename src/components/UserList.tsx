@@ -20,7 +20,11 @@ interface TrackedUser {
   created_at: string;
 }
 
-export const UserList = () => {
+interface UserListProps {
+  searchQuery?: string;
+}
+
+export const UserList = ({ searchQuery = "" }: UserListProps) => {
   const queryClient = useQueryClient();
 
   const { data: users, isLoading } = useQuery({
@@ -76,6 +80,25 @@ export const UserList = () => {
     },
   });
 
+  const filteredUsers = users?.filter((user) => {
+    if (!searchQuery) return true;
+    
+    const query = searchQuery.toLowerCase();
+    const fullName = `${user.first_name} ${user.last_name || ''}`.toLowerCase();
+    const email = user.email.toLowerCase();
+    const department = user.department?.toLowerCase() || '';
+    const jobTitle = user.job_title?.toLowerCase() || '';
+    const office = user.office?.toLowerCase() || '';
+    
+    return (
+      fullName.includes(query) ||
+      email.includes(query) ||
+      department.includes(query) ||
+      jobTitle.includes(query) ||
+      office.includes(query)
+    );
+  });
+
   if (isLoading) {
     return (
       <Card>
@@ -95,7 +118,7 @@ export const UserList = () => {
       </CardHeader>
       <CardContent className="p-0">
         <div className="divide-y divide-border">
-          {users?.map((user) => (
+          {filteredUsers?.map((user) => (
             <div key={user.id} className="flex items-center justify-between p-4 hover:bg-muted/50 transition-colors">
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-3 mb-1">
@@ -142,9 +165,9 @@ export const UserList = () => {
               </div>
             </div>
           ))}
-          {users?.length === 0 && (
+          {filteredUsers?.length === 0 && (
             <div className="p-8 text-center text-muted-foreground">
-              No users yet. Add your first user to start tracking!
+              {searchQuery ? "No users found matching your search." : "No users yet. Add your first user to start tracking!"}
             </div>
           )}
         </div>
