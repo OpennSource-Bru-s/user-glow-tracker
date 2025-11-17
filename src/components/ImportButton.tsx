@@ -50,20 +50,22 @@ export const ImportButton = () => {
 
       // Map Excel data to database format
       const users = jsonData.map((row: any) => {
-        // Support both "Name" and "name" column names (case-insensitive)
-        const name = row.Name || row.name || row.NAME;
+        // Support both column name formats (case-insensitive)
+        const firstName = row["First Name"] || row["first name"] || row.FIRST_NAME || row.FirstName || row.firstName;
+        const lastName = row["Last Name"] || row["last name"] || row.LAST_NAME || row.LastName || row.lastName;
         const email = row.Email || row.email || row.EMAIL;
         const department = row.Department || row.department || row.DEPARTMENT;
         const jobTitle = row["Job Title"] || row["job title"] || row.JOB_TITLE || row.JobTitle || row.jobTitle;
         const office = row.Office || row.office || row.OFFICE;
         const status = (row.Status || row.status || row.STATUS || "inactive").toLowerCase();
 
-        if (!name || !email) {
-          throw new Error("Excel file must have 'Name' and 'Email' columns");
+        if (!firstName || !email) {
+          throw new Error("Excel file must have 'First Name' and 'Email' columns");
         }
 
         return {
-          name: String(name).trim(),
+          first_name: String(firstName).trim(),
+          last_name: lastName ? String(lastName).trim() : null,
           email: String(email).trim().toLowerCase(),
           department: department ? String(department).trim() : null,
           job_title: jobTitle ? String(jobTitle).trim() : null,

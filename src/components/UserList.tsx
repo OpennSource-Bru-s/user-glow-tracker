@@ -9,7 +9,8 @@ import { toast } from "sonner";
 
 interface TrackedUser {
   id: string;
-  name: string;
+  first_name: string;
+  last_name: string | null;
   email: string;
   department: string | null;
   job_title: string | null;
@@ -98,8 +99,10 @@ export const UserList = () => {
             <div key={user.id} className="flex items-center justify-between p-4 hover:bg-muted/50 transition-colors">
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-3 mb-1">
-                  <p className="font-semibold text-foreground truncate">{user.name}</p>
-                  <Badge 
+                  <p className="font-semibold text-foreground truncate">
+                    {user.first_name} {user.last_name || ''}
+                  </p>
+                  <Badge
                     variant={user.status === "active" ? "default" : "secondary"}
                     className={user.status === "active" ? "bg-success hover:bg-success/80" : ""}
                   >

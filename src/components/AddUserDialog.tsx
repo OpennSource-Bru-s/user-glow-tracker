@@ -16,7 +16,8 @@ import { toast } from "sonner";
 
 export const AddUserDialog = () => {
   const [open, setOpen] = useState(false);
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [department, setDepartment] = useState("");
   const [jobTitle, setJobTitle] = useState("");
@@ -28,8 +29,9 @@ export const AddUserDialog = () => {
       const { error } = await supabase
         .from("tracked_users")
         .insert({ 
-          name, 
-          email, 
+          first_name: firstName,
+          last_name: lastName,
+          email,
           department: department || null,
           job_title: jobTitle || null,
           office: office || null,
@@ -43,7 +45,8 @@ export const AddUserDialog = () => {
       queryClient.invalidateQueries({ queryKey: ["tracked-users"] });
       toast.success("User added successfully");
       setOpen(false);
-      setName("");
+      setFirstName("");
+      setLastName("");
       setEmail("");
       setDepartment("");
       setJobTitle("");
@@ -56,8 +59,8 @@ export const AddUserDialog = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !email.trim()) {
-      toast.error("Please fill in all fields");
+    if (!firstName.trim() || !email.trim()) {
+      toast.error("Please fill in first name and email");
       return;
     }
     addUserMutation.mutate();
@@ -77,13 +80,22 @@ export const AddUserDialog = () => {
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="firstName">First Name</Label>
             <Input
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="John Doe"
+              id="firstName"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              placeholder="John"
               required
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="lastName">Last Name</Label>
+            <Input
+              id="lastName"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              placeholder="Doe"
             />
           </div>
           <div className="space-y-2">

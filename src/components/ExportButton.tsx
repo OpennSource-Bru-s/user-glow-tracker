@@ -17,7 +17,8 @@ export const ExportButton = ({ users }: ExportButtonProps) => {
     try {
       // Prepare data for export
       const exportData = users.map(user => ({
-        Name: user.name,
+        "First Name": user.first_name,
+        "Last Name": user.last_name || "",
         Email: user.email,
         Department: user.department || "",
         "Job Title": user.job_title || "",
@@ -34,7 +35,8 @@ export const ExportButton = ({ users }: ExportButtonProps) => {
       
       // Set column widths
       worksheet['!cols'] = [
-        { wch: 20 }, // Name
+        { wch: 20 }, // First Name
+        { wch: 20 }, // Last Name
         { wch: 30 }, // Email
         { wch: 20 }, // Department
         { wch: 25 }, // Job Title
