@@ -6,6 +6,7 @@ import { UserList } from "@/components/UserList";
 import { AddUserDialog } from "@/components/AddUserDialog";
 import { ExportButton } from "@/components/ExportButton";
 import { ImportButton } from "@/components/ImportButton";
+import { RemoveAllButton } from "@/components/RemoveAllButton";
 import { Input } from "@/components/ui/input";
 import { Users, UserCheck, UserX, Search } from "lucide-react";
 
@@ -41,6 +42,7 @@ const Index = () => {
           <div className="flex gap-2">
             <ExportButton users={users || []} />
             <ImportButton />
+            <RemoveAllButton />
           </div>
         </div>
 
